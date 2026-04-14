@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="Layout(title,content)">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="${title}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark glass-nav fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><i class="fa-solid fa-book"></i> Enotes</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" th:classappend="${activeLink=='home'} ? 'active'"
+                            aria-current="page" href="/"><i class="fa-solid fa-house"></i>
+                            Home</a></li>
+                    <th:block th:if="${user!=NULL}">
+                        <li class="nav-item"><a class="nav-link" th:classappend="${activeLink=='addNotes'} ? 'active'"
+                                href="/user/addNotes"><i class="fa-solid fa-plus-circle me-1"></i> Add Note</a></li>
+                        <li class="nav-item"><a class="nav-link" th:classappend="${activeLink=='viewNotes'} ? 'active'"
+                                href="/user/viewNotes"><i class="fa-solid fa-list me-1"></i> View Notes</a></li>
+
+                        <li class="nav-item"><a class="nav-link" th:classappend="${activeLink=='diary'} ? 'active'"
+                                href="/user/diary"><i class="fa-solid fa-book-journal-whills me-1"></i> Diary</a></li>
+                        <li class="nav-item"><a class="nav-link" th:classappend="${activeLink=='todo'} ? 'active'"
+                                href="/user/todo"><i class="fa-solid fa-list-check me-1"></i> To-Do</a></li>
+                        <li class="nav-item"><a class="nav-link" th:classappend="${activeLink=='goals'} ? 'active'"
+                                href="/user/goals"><i class="fa-solid fa-bullseye me-1"></i> Goals</a></li>
+                        <li class="nav-item"><a class="nav-link" th:classappend="${activeLink=='ideas'} ? 'active'"
+                                href="/user/ideas"><i class="fa-solid fa-lightbulb me-1"></i> Ideas</a></li>
+                        <li class="nav-item"><a class="nav-link" th:classappend="${activeLink=='quotes'} ? 'active'"
+                                href="/user/quotes"><i class="fa-solid fa-quote-left me-1"></i> Quotes</a></li>
+                        <li class="nav-item"><a class="nav-link" th:classappend="${activeLink=='qa'} ? 'active'"
+                                href="/user/qa"><i class="fa-solid fa-clipboard-question me-1"></i> Q&A</a></li>
+                        <li class="nav-item"><a class="nav-link" th:classappend="${activeLink=='dates'} ? 'active'"
+                                href="/user/dates"><i class="fa-regular fa-calendar-check me-1"></i> Dates</a></li>
+                        <li class="nav-item"><a class="nav-link" th:classappend="${activeLink=='schedule'} ? 'active'"
+                                href="/user/schedule"><i class="fa-solid fa-calendar-week me-1"></i> Schedule</a></li>
+                        <li class="nav-item"><a class="nav-link" th:classappend="${activeLink=='routine'} ? 'active'"
+                                href="/user/routine"><i class="fa-solid fa-clock me-1"></i> Routine</a></li>
+
+
+                    </th:block>
+                </ul>
+
+
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <th:block th:if="${user==NULL}">
+
+                        <li class="nav-item"><a href="register" class="btn btn-sm btn-primary"><i
+                                    class="fa-solid fa-user-plus"></i> Register</a></li>
+                        <li class="nav-item"><a href="signin" class="btn btn-sm btn-primary ms-2"><i
+                                    class="fa-solid fa-right-to-bracket"></i> Login</a></li>
+                    </th:block>
+
+
+
+                    <th:block th:if="${user!=NULL}">
+                        <li class="nav-item"><a href="#" class="btn btn-sm btn-primary"><i
+                                    class="fa-solid fa-user-plus"></i> [[${user.name}]]</a></li>
+                        <li class="nav-item"><a th:href="@{/logout}" class="btn btn-sm btn-outline-danger ms-2"><i
+                                    class="fa-solid fa-right-to-bracket"></i> Logout</a></li>
+                    </th:block>
+
+                </ul>
+
+
+            </div>
+        </div>
+    </nav>
+    <div style="margin-top: 80px;"> <!-- Spacer for fixed navbar -->
+        <div th:replace="${content}"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

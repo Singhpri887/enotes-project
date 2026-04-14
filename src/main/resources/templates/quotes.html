@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: Layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quotes - Enotes</title>
+</head>
+
+<body>
+    <section>
+        <div class="container-fluid p-4">
+            <!-- Hero Section -->
+            <div class="row align-items-center mb-5">
+                <div class="col-md-8">
+                    <div class="glass-card p-4 fade-in d-flex align-items-center justify-content-between">
+                        <div>
+                            <h2 class="fw-bold text-primary mb-2">Quotes & Inspiration</h2>
+                            <p class="text-white mb-0">Collect words of wisdom that inspire you.</p>
+                        </div>
+                        <div class="d-none d-md-block">
+                            <img th:src="@{/img/view_notes_hero.png}" alt="Quotes" class="img-fluid floating-animation"
+                                style="max-height: 150px; filter: drop-shadow(0 0 10px rgba(37, 117, 252, 0.2));">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-card p-4 fade-in text-center h-100 d-flex flex-column justify-content-center">
+                        <h4 class="text-primary fw-bold m-0"><i class="fa-solid fa-quote-left me-2"></i>Collect Wisdom
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="row justify-content-center">
+                <div class="col-md-8 mb-5">
+                    <div class="glass-card p-4 fade-in text-center">
+                        <h4 class="text-primary fw-bold mb-3">Add New Quote</h4>
+                        <form action="saveNotes" method="post">
+                            <input type="hidden" name="category" value="QUOTE">
+                            <div class="mb-3">
+                                <textarea rows="3" name="description" class="form-control text-center fs-5 fst-italic"
+                                    required placeholder='"Quote goes here..."'></textarea>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-md-6 mb-3">
+                                    <input type="text" name="title" class="form-control text-center"
+                                        placeholder="- Author Name">
+                                </div>
+                            </div>
+                            <button class="btn btn-primary px-5">Save Quote</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${#lists.isEmpty(notesList)}" class="text-center text-white py-5 glass-card">
+                <h4>No quotes saved yet</h4>
+            </div>
+
+            <div class="row">
+                <div th:each="n : ${notesList}" class="col-md-6 mb-4 fade-in">
+                    <div
+                        class="glass-card p-5 text-center position-relative h-100 d-flex flex-column justify-content-center">
+                        <i
+                            class="fa-solid fa-quote-left fa-2x text-primary opacity-25 position-absolute top-0 start-0 m-4"></i>
+                        <figure>
+                            <blockquote class="blockquote">
+                                <p class="mb-4 fs-5">[[${n.description}]]</p>
+                            </blockquote>
+                            <figcaption class="blockquote-footer mt-2">
+                                <cite title="Source Title">[[${n.title}]]</cite>
+                            </figcaption>
+                        </figure>
+                        <div class="position-absolute bottom-0 end-0 m-3 opacity-25 hover-opacity-100">
+                            <a th:href="@{'deleteNotes/'+${n.id}}" class="text-danger"><i
+                                    class="fa-solid fa-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

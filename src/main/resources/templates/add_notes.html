@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: Layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add Note - Enotes</title>
+</head>
+
+<body>
+    <section class="d-flex align-items-center" style="min-height: 90vh;">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-5 d-none d-lg-block">
+                    <div class="slide-up text-center">
+                        <img th:src="@{/img/notes_hero.png}" alt="Create Notes" class="img-fluid floating-animation"
+                            style="max-height: 450px; filter: drop-shadow(0 0 15px rgba(255, 0, 128, 0.15));">
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="glass-card fade-in">
+                        <div class="text-center mb-4">
+                            <h3 class="fw-bold text-primary">Create New Note</h3>
+                        </div>
+
+                        <th:block th:if="${session.msg}">
+                            <div class="alert alert-success text-center">[[${session.msg}]]</div>
+                            <th:block th:text="${@userServiceImpl.removeSessionMessages()}"></th:block>
+                        </th:block>
+
+                        <form action="saveNotes" method="post">
+                            <div class="mb-4">
+                                <label class="form-label">Note Title</label>
+                                <input type="text" name="title" class="form-control" placeholder="Enter title">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Description</label>
+                                <textarea rows="6" class="form-control" name="description"
+                                    placeholder="Write your thoughts here..."></textarea>
+                            </div>
+
+                            <button class="btn btn-primary px-5 mx-auto d-block">Save Note</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

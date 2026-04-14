@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: Layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Enotes</title>
+</head>
+
+<body>
+    <section class="d-flex align-items-center" style="min-height: 90vh;">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-5">
+                    <div class="glass-card fade-in">
+                        <div class="text-center mb-4">
+                            <h3 class="fw-bold text-primary">Welcome Back</h3>
+                            <p class="text-white">Please login to continue</p>
+                        </div>
+
+                        <th:block th:if="${param.error}">
+                            <div class="alert alert-danger text-center">
+                                [[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</div>
+                        </th:block>
+
+                        <th:block th:if="${param.logout}">
+                            <div class="alert alert-success text-center">Logout successfully</div>
+                        </th:block>
+
+                        <form action="userLogin" method="post">
+                            <div class="mb-4">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" name="username" class="form-control" placeholder="Enter your email">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Password</label>
+                                <input type="password" name="password" class="form-control"
+                                    placeholder="Enter your password">
+                            </div>
+
+                            <button class="btn btn-primary w-100 py-2 mb-3" type="submit">Login</button>
+                        </form>
+
+                        <div class="text-center mt-3">
+                            <p class="mb-0">Don't have an account? <a href="register"
+                                    class="fw-bold text-decoration-none text-primary">Register</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 d-none d-md-block">
+                    <div class="slide-up text-center">
+                        <img th:src="@{/img/login_hero.png}" alt="Login Securely" class="img-fluid floating-animation"
+                            style="max-height: 450px; filter: drop-shadow(0 0 15px rgba(106,17,203,0.15));">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: Layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do List - Enotes</title>
+</head>
+
+<body>
+    <section>
+        <div class="container-fluid p-4">
+            <!-- Hero Section -->
+            <div class="row align-items-center mb-5">
+                <div class="col-md-8">
+                    <div class="glass-card p-4 fade-in d-flex align-items-center justify-content-between">
+                        <div>
+                            <h2 class="fw-bold text-primary mb-2">To-Do List</h2>
+                            <p class="text-white mb-0">Stay organized and track your daily tasks.</p>
+                        </div>
+                        <div class="d-none d-md-block">
+                            <img th:src="@{/img/view_notes_hero.png}" alt="Todo" class="img-fluid floating-animation"
+                                style="max-height: 150px; filter: drop-shadow(0 0 10px rgba(37, 117, 252, 0.2));">
+                        </div>
+                    </div>
+                </div>
+                <!-- Removed dead button column, simplified hero or kept layout consistent -->
+                <div class="col-md-4">
+                    <div class="glass-card p-4 fade-in text-center h-100 d-flex flex-column justify-content-center">
+                        <h4 class="text-primary fw-bold m-0"><i class="fa-solid fa-check-double me-2"></i>Get Things
+                            Done</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="glass-card p-4 fade-in">
+                        <h4 class="text-primary fw-bold mb-3"><i class="fa-solid fa-plus me-2"></i>Add Task</h4>
+                        <form action="saveNotes" method="post">
+                            <input type="hidden" name="category" value="TODO">
+                            <div class="mb-3">
+                                <input type="text" name="title" class="form-control" required placeholder="Task Title">
+                            </div>
+                            <div class="mb-3">
+                                <textarea rows="3" name="description" class="form-control"
+                                    placeholder="Details (Optional)"></textarea>
+                            </div>
+                            <button class="btn btn-primary w-100">Add Task</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div th:if="${#lists.isEmpty(notesList)}" class="text-center text-white py-5 glass-card">
+                        <h4>No tasks yet</h4>
+                        <p>Add a task to get started on your productivity journey.</p>
+                    </div>
+
+                    <div class="list-group list-group-flush rounded-3">
+                        <div th:each="n : ${notesList}"
+                            class="glass-card mb-2 p-3 fade-in d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-regular fa-circle text-primary me-3 fa-lg"></i>
+                                <div>
+                                    <h5 class="fw-bold text-white mb-0">[[${n.title}]]</h5>
+                                    <small class="text-white"
+                                        th:if="${n.description != ''}">[[${n.description}]]</small>
+                                </div>
+                            </div>
+                            <div>
+                                <a th:href="@{'deleteNotes/'+${n.id}}"
+                                    class="btn btn-outline-success btn-sm rounded-pill px-3"><i
+                                        class="fa-solid fa-check me-1"></i>Done</a>
+                                <a th:href="@{'editNotes/'+${n.id}}"
+                                    class="btn btn-outline-secondary btn-sm rounded-circle p-2 ms-1"><i
+                                        class="fa-solid fa-pen"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

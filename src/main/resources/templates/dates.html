@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: Layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Important Dates - Enotes</title>
+</head>
+
+<body>
+    <section>
+        <div class="container-fluid p-4">
+            <!-- Hero Section -->
+            <div class="row align-items-center mb-5">
+                <div class="col-md-8">
+                    <div class="glass-card p-4 fade-in d-flex align-items-center justify-content-between">
+                        <div>
+                            <h2 class="fw-bold text-primary mb-2">Important Dates</h2>
+                            <p class="text-white mb-0">Never miss an exam, meeting, or birthday.</p>
+                        </div>
+                        <div class="d-none d-md-block">
+                            <!-- Using a generic hero placeholder -->
+                            <img th:src="@{/img/view_notes_hero.png}" alt="Dates" class="img-fluid floating-animation"
+                                style="max-height: 150px; filter: drop-shadow(0 0 10px rgba(37, 117, 252, 0.2));">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-card p-4 fade-in text-center h-100 d-flex flex-column justify-content-center">
+                        <h4 class="text-primary fw-bold m-0"><i class="fa-regular fa-calendar-check me-2"></i>Save the
+                            Date</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="row">
+                <!-- Add Form -->
+                <div class="col-md-4 mb-4">
+                    <div class="glass-card p-4 fade-in">
+                        <h4 class="text-primary fw-bold mb-3"><i class="fa-solid fa-plus me-2"></i>Add Event</h4>
+                        <form action="saveNotes" method="post">
+                            <input type="hidden" name="category" value="DATES">
+                            <div class="mb-3">
+                                <label class="form-label text-white">Event Date</label>
+                                <input type="date" name="date" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-white">Event Name</label>
+                                <input type="text" name="title" class="form-control" required
+                                    placeholder="e.g. Final Exam">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-white">Details</label>
+                                <textarea rows="2" name="description" class="form-control"
+                                    placeholder="Time, Location, etc."></textarea>
+                            </div>
+                            <button class="btn btn-primary w-100">Save Date</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Event List -->
+                <div class="col-md-8">
+                    <div th:if="${#lists.isEmpty(notesList)}" class="text-center text-white py-5 glass-card">
+                        <i class="fa-regular fa-calendar-xmark fa-3x mb-3 text-secondary opacity-50"></i>
+                        <h4>No dates saved</h4>
+                        <p>Add your upcoming important events here.</p>
+                    </div>
+
+                    <div class="row">
+                        <div th:each="n : ${notesList}" class="col-md-6 mb-3 fade-in">
+                            <div class="glass-card p-3 d-flex align-items-center">
+                                <div class="bg-primary bg-opacity-10 text-primary rounded p-3 text-center me-3"
+                                    style="min-width: 80px;">
+                                    <h4 class="mb-0 fw-bold">[[${#temporals.format(n.date, 'dd')}]]</h4>
+                                    <small class="text-uppercase fw-bold">[[${#temporals.format(n.date,
+                                        'MMM')}]]</small>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="fw-bold text-white mb-1">[[${n.title}]]</h5>
+                                    <p class="text-white small mb-0">[[${n.description}]]</p>
+                                    <small class="text-white fst-italic">[[${#temporals.format(n.date, 'EEEE,
+                                        yyyy')}]]</small>
+                                </div>
+                                <div>
+                                    <a th:href="@{'deleteNotes/'+${n.id}}"
+                                        class="btn btn-sm btn-outline-danger rounded-circle"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

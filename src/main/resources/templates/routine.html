@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: Layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Routine - Enotes</title>
+</head>
+
+<body>
+    <section>
+        <div class="container-fluid p-4">
+            <!-- Hero Section -->
+            <div class="row align-items-center mb-5">
+                <div class="col-md-8">
+                    <div class="glass-card p-4 fade-in d-flex align-items-center justify-content-between">
+                        <div>
+                            <h2 class="fw-bold text-primary mb-2">Daily Routine</h2>
+                            <p class="text-white mb-0">Establish good habits and stick to your plan.</p>
+                        </div>
+                        <div class="d-none d-md-block">
+                            <img th:src="@{/img/view_notes_hero.png}" alt="Routine" class="img-fluid floating-animation"
+                                style="max-height: 150px; filter: drop-shadow(0 0 10px rgba(37, 117, 252, 0.2));">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-card p-4 fade-in text-center h-100 d-flex flex-column justify-content-center">
+                        <h4 class="text-primary fw-bold m-0"><i class="fa-solid fa-clock me-2"></i>My Day</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="row">
+                <!-- Add Form -->
+                <div class="col-md-4 mb-4">
+                    <div class="glass-card p-4 fade-in">
+                        <h4 class="text-primary fw-bold mb-3"><i class="fa-solid fa-plus me-2"></i>Add Routine</h4>
+                        <form action="saveNotes" method="post">
+                            <input type="hidden" name="category" value="ROUTINE">
+                            <div class="mb-3">
+                                <label class="form-label text-white">Time</label>
+                                <input type="time" name="title" class="form-control" required>
+                                <!-- Binding time to title for simplicity/string matching -->
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-white">Activity</label>
+                                <textarea rows="2" name="description" class="form-control" required
+                                    placeholder="e.g. Morning Jog"></textarea>
+                            </div>
+                            <button class="btn btn-primary w-100">Save</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Routine List -->
+                <div class="col-md-8">
+                    <div th:if="${#lists.isEmpty(notesList)}" class="text-center text-white py-5 glass-card">
+                        <i class="fa-solid fa-stopwatch fa-3x mb-3 text-secondary opacity-50"></i>
+                        <h4>No routine set</h4>
+                    </div>
+
+                    <div class="list-group">
+                        <div th:each="n : ${notesList}" class="glass-card mb-3 p-3 fade-in d-flex align-items-center">
+                            <div class="bg-secondary bg-opacity-10 rounded-circle p-3 me-3 text-primary d-flex align-items-center justify-content-center"
+                                style="width: 60px; height: 60px;">
+                                <i class="fa-regular fa-clock fa-xl"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h4 class="fw-bold mb-0">[[${n.title}]]</h4> <!-- Time -->
+                                <p class="mb-0 text-white">[[${n.description}]]</p>
+                            </div>
+                            <div>
+                                <a th:href="@{'deleteNotes/'+${n.id}}"
+                                    class="btn btn-sm btn-outline-danger rounded-circle"><i
+                                        class="fa-solid fa-trash"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

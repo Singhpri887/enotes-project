@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: Layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Enotes</title>
+</head>
+
+<body>
+    <section class="d-flex align-items-center" style="min-height: 90vh;">
+        <div class="container my-5">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-6 d-none d-md-block">
+                    <div class="slide-up text-center">
+                        <img th:src="@{/img/register_hero.png}" alt="Join Us" class="img-fluid floating-animation"
+                            style="max-height: 500px; filter: drop-shadow(0 0 15px rgba(37, 117, 252, 0.15));">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="glass-card fade-in">
+                        <div class="text-center mb-4">
+                            <h3 class="fw-bold text-primary">Create Account</h3>
+                            <p class="text-white">Join our community today</p>
+                        </div>
+
+                        <th:block th:if="${session.msg}">
+                            <div class="alert alert-success text-center">[[${session.msg}]]</div>
+                            <th:block th:text="${@userServiceImpl.removeSessionMessages()}"></th:block>
+                        </th:block>
+
+                        <form action="saveUser" method="post">
+                            <div class="mb-3">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" name="name" class="form-control" placeholder="Enter full name">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Qualification</label>
+                                <input type="text" name="qualification" class="form-control"
+                                    placeholder="Enter qualification">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" name="email" class="form-control" placeholder="Enter email">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Address</label>
+                                <input type="text" name="address" class="form-control" placeholder="Enter address">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label d-block">Gender</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio1"
+                                        value="Male">
+                                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2"
+                                        value="Female">
+                                    <label class="form-check-label" for="inlineRadio2">Female</label>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Password</label>
+                                <input type="password" name="password" class="form-control"
+                                    placeholder="Enter password">
+                            </div>
+
+                            <button class="btn btn-primary w-100 py-2" type="submit">Register</button>
+                        </form>
+
+                        <div class="text-center mt-3">
+                            <p class="mb-0">Already have an account? <a href="signin"
+                                    class="fw-bold text-decoration-none text-primary">Login</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

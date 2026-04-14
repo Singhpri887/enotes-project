@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: Layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Q&A - Enotes</title>
+</head>
+
+<body>
+    <section>
+        <div class="container-fluid p-4">
+            <!-- Hero Section -->
+            <div class="row align-items-center mb-5">
+                <div class="col-md-8">
+                    <div class="glass-card p-4 fade-in d-flex align-items-center justify-content-between">
+                        <div>
+                            <h2 class="fw-bold text-primary mb-2">Questions & Answers</h2>
+                            <p class="text-white mb-0">Build your personal knowledge base.</p>
+                        </div>
+                        <div class="d-none d-md-block">
+                            <!-- Using notes_hero as placeholder -->
+                            <img th:src="@{/img/notes_hero.png}" alt="Q&A" class="img-fluid floating-animation"
+                                style="max-height: 150px; filter: drop-shadow(0 0 10px rgba(37, 117, 252, 0.2));">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-card p-4 fade-in text-center h-100 d-flex flex-column justify-content-center">
+                        <h4 class="text-primary fw-bold m-0"><i class="fa-solid fa-circle-question me-2"></i>Ask &
+                            Answer</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="row">
+                <!-- Form Column -->
+                <div class="col-md-4 mb-4">
+                    <div class="glass-card p-4 fade-in sticky-top" style="top: 100px; z-index: 1;">
+                        <h4 class="text-primary fw-bold mb-3"><i class="fa-solid fa-plus me-2"></i>Add Q&A</h4>
+                        <form action="saveNotes" method="post">
+                            <input type="hidden" name="category" value="QA">
+                            <div class="mb-3">
+                                <label class="form-label text-white">Question</label>
+                                <input type="text" name="title" class="form-control" required
+                                    placeholder="Type your question...">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-white">Answer</label>
+                                <textarea rows="6" name="description" class="form-control" required
+                                    placeholder="Type the answer..."></textarea>
+                            </div>
+                            <button class="btn btn-primary w-100">Save Q&A</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Accordion List Column -->
+                <div class="col-md-8">
+                    <div th:if="${#lists.isEmpty(notesList)}" class="text-center text-white py-5 glass-card">
+                        <i class="fa-solid fa-clipboard-question fa-3x mb-3 text-secondary opacity-50"></i>
+                        <h4>No questions saved</h4>
+                        <p>Start building your FAQ.</p>
+                    </div>
+
+                    <div class="accordion" id="qaAccordion">
+                        <div th:each="n, stat : ${notesList}"
+                            class="accordion-item glass-card border-0 mb-3 fade-in overflow-hidden">
+                            <h2 class="accordion-header" th:id="'heading'+${n.id}">
+                                <button class="accordion-button collapsed fw-bold text-white bg-transparent shadow-none"
+                                    type="button" data-bs-toggle="collapse" th:data-bs-target="'#collapse'+${n.id}"
+                                    aria-expanded="false" th:aria-controls="'collapse'+${n.id}">
+                                    <span class="me-2 text-primary fw-bold"
+                                        style="text-shadow: 0 0 10px rgba(187, 134, 252, 0.5);">Q:</span> [[${n.title}]]
+                                </button>
+                            </h2>
+                            <div th:id="'collapse'+${n.id}" class="accordion-collapse collapse"
+                                th:aria-labelledby="'heading'+${n.id}" data-bs-parent="#qaAccordion">
+                                <div
+                                    class="accordion-body text-white border-top border-white border-opacity-10 position-relative">
+                                    <strong class="text-success me-1"
+                                        style="text-shadow: 0 0 10px rgba(3, 218, 198, 0.3);">A:</strong> <span
+                                        style="white-space: pre-wrap; opacity: 0.9;">[[${n.description}]]</span>
+
+                                    <div class="mt-3 text-end">
+                                        <a th:href="@{'editNotes/'+${n.id}}"
+                                            class="btn btn-sm btn-outline-primary rounded-circle p-2 me-1"><i
+                                                class="fa-solid fa-pen"></i></a>
+                                        <a th:href="@{'deleteNotes/'+${n.id}}"
+                                            class="btn btn-sm btn-outline-danger rounded-circle p-2"><i
+                                                class="fa-solid fa-trash"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: Layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Timetable - Enotes</title>
+</head>
+
+<body>
+    <section>
+        <div class="container-fluid p-4">
+            <!-- Hero Section -->
+            <div class="row align-items-center mb-5">
+                <div class="col-md-8">
+                    <div class="glass-card p-4 fade-in d-flex align-items-center justify-content-between">
+                        <div>
+                            <h2 class="fw-bold text-primary mb-2">Timetable / Schedule</h2>
+                            <p class="text-white mb-0">Manage your weekly classes and activities.</p>
+                        </div>
+                        <div class="d-none d-md-block">
+                            <img th:src="@{/img/view_notes_hero.png}" alt="Schedule"
+                                class="img-fluid floating-animation"
+                                style="max-height: 150px; filter: drop-shadow(0 0 10px rgba(37, 117, 252, 0.2));">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-card p-4 fade-in text-center h-100 d-flex flex-column justify-content-center">
+                        <h4 class="text-primary fw-bold m-0"><i class="fa-solid fa-calendar-week me-2"></i>Organize Week
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="row">
+                <!-- Add Form -->
+                <div class="col-md-4 mb-4">
+                    <div class="glass-card p-4 fade-in">
+                        <h4 class="text-primary fw-bold mb-3"><i class="fa-solid fa-plus me-2"></i>Add Class/Activity
+                        </h4>
+                        <form action="saveNotes" method="post">
+                            <input type="hidden" name="category" value="SCHEDULE">
+                            <div class="mb-3">
+                                <label class="form-label text-white">Day & Time</label>
+                                <!-- Using title for generic Day/Time input to allow flexibility e.g. "Monday 10AM" -->
+                                <input type="text" name="title" class="form-control" required
+                                    placeholder="e.g. Mon 09:00 AM">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-white">Activity / Subject</label>
+                                <textarea rows="2" name="description" class="form-control" required
+                                    placeholder="e.g. Mathematics Room 101"></textarea>
+                            </div>
+                            <button class="btn btn-primary w-100">Add to Schedule</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Schedule List -->
+                <div class="col-md-8">
+                    <div th:if="${#lists.isEmpty(notesList)}" class="text-center text-white py-5 glass-card">
+                        <i class="fa-solid fa-calendar-days fa-3x mb-3 text-secondary opacity-50"></i>
+                        <h4>Empty Schedule</h4>
+                    </div>
+
+                    <div class="row">
+                        <div th:each="n : ${notesList}" class="col-md-4 mb-3 fade-in">
+                            <div class="glass-card p-3 h-100 border-top border-5 border-primary">
+                                <h5 class="fw-bold text-primary mb-2">[[${n.title}]]</h5>
+                                <p class="text-white mb-3">[[${n.description}]]</p>
+                                <div class="text-end">
+                                    <a th:href="@{'deleteNotes/'+${n.id}}" class="text-danger btn btn-sm"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

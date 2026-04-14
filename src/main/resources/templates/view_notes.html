@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: Layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Notes - Enotes</title>
+</head>
+
+<body>
+    <section>
+        <div class="container-fluid p-4">
+            <!-- Hero Section -->
+            <div class="row align-items-center mb-5">
+                <div class="col-md-8">
+                    <div class="glass-card p-4 fade-in d-flex align-items-center justify-content-between">
+                        <div>
+                            <h2 class="fw-bold text-primary mb-2">My Notes Dashboard</h2>
+                            <p class="text-white mb-0" style="opacity: 0.7;">Manage, organize, and track your personal
+                                notes efficiently.</p>
+                        </div>
+                        <div class="d-none d-md-block">
+                            <img th:src="@{/img/view_notes_hero.png}" alt="Dashboard"
+                                class="img-fluid floating-animation"
+                                style="max-height: 150px; filter: drop-shadow(0 0 10px rgba(37, 117, 252, 0.2));">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="glass-card p-4 fade-in text-center h-100 d-flex flex-column justify-content-center">
+                        <h4 class="text-primary fw-bold">Total Notes</h4>
+                        <h1 class="display-4 fw-bold text-white">[[${totalElements}]]</h1>
+                    </div>
+                </div>
+            </div>
+
+            <th:block th:if="${session.msg}">
+                <div class="alert alert-success text-center w-50 mx-auto">[[${session.msg}]]</div>
+                <th:block th:text="${@userServiceImpl.removeSessionMessages()}"></th:block>
+            </th:block>
+
+            <div class="row">
+                <div th:each="n : ${notesList}" class="col-md-6 col-lg-4 mb-4 fade-in">
+                    <div class="glass-card h-100 position-relative d-flex flex-column"
+                        style="border-left: 5px solid var(--secondary-color);">
+                        <div class="p-4 flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="fw-bold mb-0 text-white text-break">[[${n.title}]]</h5>
+                                <div class="dropdown">
+                                    <!-- Optional: Add a subtle menu or just keep clean -->
+                                </div>
+                            </div>
+
+                            <p class="text-white mb-4 text-break" style="white-space: pre-wrap; opacity: 0.85;">
+                                [[${n.description}]]</p>
+                        </div>
+
+                        <div class="px-4 pb-4 mt-auto">
+                            <div
+                                class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-10">
+                                <span
+                                    class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-10 rounded-pill px-3 py-2 fw-normal">
+                                    <i class="fa-regular fa-calendar me-2 text-primary"></i>[[${n.date}]]
+                                </span>
+                                <div>
+                                    <a th:href="@{'editNotes/'+${n.id}}"
+                                        class="btn btn-outline-primary btn-sm rounded-circle p-2 mx-1" title="Edit"><i
+                                            class="fa-solid fa-pen"></i></a>
+                                    <a th:href="@{'deleteNotes/'} +${n.id}"
+                                        class="btn btn-outline-danger btn-sm rounded-circle p-2 mx-1" title="Delete"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4 align-items-center">
+                <div class="col-md-12">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center mb-0">
+                            <li th:if="${currentPage!=0}" class="page-item">
+                                <a class="page-link border-0 me-1"
+                                    th:href="@{'/user/viewNotes?pageNo=' + ${currentPage - 1}}">Previous</a>
+                            </li>
+
+                            <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}"
+                                th:classappend="${currentPage == i-1} ? 'active' : ''">
+                                <a th:href="@{'/user/viewNotes?pageNo=' + ${i-1}}"
+                                    class="page-link border-0 me-1">[[${i}]]</a>
+                            </li>
+
+                            <li th:if="${currentPage+1!=totalPages}" class="page-item">
+                                <a class="page-link border-0"
+                                    th:href="@{'/user/viewNotes?pageNo=' + ${currentPage + 1}}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: Layout(~{::title}, ~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Enotes - Premium Note Taking</title>
+</head>
+
+<body>
+    <section class="d-flex align-items-center" style="min-height: 90vh;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="glass-card p-5 fade-in text-lg-start text-center">
+                        <h1 class="display-4 fw-bold mb-4 text-primary">Welcome to
+                            Enotes</h1>
+                        <p class="lead mb-4">Experience the future of note-taking. Secure, beautiful, and accessible
+                            anywhere.</p>
+
+                        <div class="mb-4 text-white">
+                            <h5><i class="fa-brands fa-java text-primary"></i> Powered by Spring Boot</h5>
+                            <p class="small">Built with the robustness of Java Spring Boot, ensuring enterprise-grade
+                                security, scalability, and performance for your personal notes.</p>
+                        </div>
+
+                        <div class="d-flex justify-content-center justify-content-lg-start gap-3 slide-up">
+                            <th:block th:if="${user==NULL}">
+                                <a href="register" class="btn btn-primary btn-lg px-4">Get Started</a>
+                                <a href="signin" class="btn btn-outline-primary btn-lg px-4">Login</a>
+                            </th:block>
+                            <th:block th:if="${user!=NULL}">
+                                <a href="/user/addNotes" class="btn btn-primary btn-lg px-4">Add Note</a>
+                                <a href="/user/viewNotes" class="btn btn-outline-primary btn-lg px-4">View Notes</a>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="slide-up text-center">
+                        <img th:src="@{/img/home_hero.png}" alt="Enotes Hero" class="img-fluid floating-animation"
+                            style="filter: drop-shadow(0 0 20px rgba(106,17,203,0.2)); max-height: 500px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
